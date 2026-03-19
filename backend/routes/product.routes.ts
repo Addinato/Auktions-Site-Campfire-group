@@ -2,25 +2,23 @@ import { Router, Request, Response } from "express";
 import { getIo } from "../socket";
 
 class Product {
-  constructor(product1: string, startsum: number, pic: string;) {
+  constructor(product1: string, startsum: number) {
     this.id =
       Math.random().toString(36).substring(2, 15) +
       Math.random().toString(36).substring(2, 15);
     this.product1 = product1;
     this.startsum = startsum;
-    this.pic= pic;
   }
   id: string;
   product1: string;
   startsum: number;
   bid: number = 0;
-  pic: string;
 }
 
 const products: Product[] = [];
 
-function initProducts() { 
-  products.push(new Product("Volvo", 457580,"länk till bilder"));
+function initProducts() {
+  products.push(new Product("Volvo", 457580));
   products.push(new Product("BMW", 15540));
   products.push(new Product("Porche", 10670));
   products.push(new Product("Audi", 20000));
