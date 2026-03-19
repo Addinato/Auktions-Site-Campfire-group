@@ -7,15 +7,15 @@ function getProductInfo(){
     fetch(`http://localhost:3000/api/product/${productId}`)
     .then(response => response.json())
     .then(product => {
-        const team1 = document.getElementById("product1") as HTMLSpanElement;
-        const team2 = document.getElementById("product2") as HTMLSpanElement;
-        const score1 = document.getElementById("bid1") as HTMLSpanElement;
-        const score2 = document.getElementById("bid2") as HTMLSpanElement;
+        const product1 = document.getElementById("product1") as HTMLSpanElement;
+        const startsum = document.getElementById("startsum") as HTMLSpanElement;
+        const bid = document.getElementById("bid") as HTMLSpanElement;
+     
 
         product1.textContent = product.product1;
-        product2.textContent = product.product2;
-        bid1.textContent = product.bid1.toString();
-        bid2.textContent = product.bid2.toString();
+        startsum.textContent = product.startsum;
+        bid.textContent = product.bid1.toString();
+        
 
     });
 }
@@ -41,12 +41,12 @@ socket.on('connect', () => {
 
 socket.on('productUpdate', (product) => {
     const product1 = document.getElementById("product1") as HTMLSpanElement;
-    const product2 = document.getElementById("product2") as HTMLSpanElement;
-    const bid1 = document.getElementById("bid1") as HTMLSpanElement;
-    const bid2 = document.getElementById("bid2") as HTMLSpanElement;
+    const startsum = document.getElementById("startsum") as HTMLSpanElement;
+    const bid = document.getElementById("bid") as HTMLSpanElement;
+  
 
     product1.textContent = product.product1;
-    product2.textContent = product.product2;
-    bid1.textContent = product.bid1.toString();
-    bid2.textContent = product.bid2.toString();
+    startsum.textContent = product.startsum;
+    bid.textContent = product.bid.toString();
+ 
 });
