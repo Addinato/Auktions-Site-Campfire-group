@@ -2,26 +2,35 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FRONTEND-STARTSIDAN</title>
+    <title>Auctions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body>
-    <h3>startsida</h3>
-     <table >
-      <thead>
-        <tr>
-          <td>ID</td>
-          <td>Product1</td>
-          <td>startsum</td>
-          <td>current bid:</td>
-        </tr>
-      </thead>
-      <tbody id="productRows"></tbody>
-    </table>
+
+  <body class="bg-gray-50 text-gray-900">
+    <main class="max-w-4xl mx-auto mt-16 px-4">
+
+      <h1 class="text-2xl font-semibold mb-6">Auctions</h1>
+
+      <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+        <table class="w-full text-sm">
+          
+          <thead class="bg-gray-50 text-gray-500">
+            <tr>
+              <th class="text-left px-6 py-3 font-medium">ID</th>
+              <th class="text-left px-6 py-3 font-medium">Product</th>
+              <th class="text-left px-6 py-3 font-medium">Start Price</th>
+              <th class="text-left px-6 py-3 font-medium">Current Bid</th>
+            </tr>
+          </thead>
+
+          <tbody id="productRows" class="divide-y divide-gray-100"></tbody>
+
+        </table>
+      </div>
+
+    </main>
+
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
-
-<!-- STARTSIDAN -->
-<!-- visar flera producter -->
