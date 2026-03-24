@@ -42,10 +42,10 @@ socket.on('connect', () => {
 
 socket.on('productUpdate', (product) => {
     const product1 = document.getElementById("product1") as HTMLSpanElement;
-    const bid1 = document.getElementById("bid1") as HTMLSpanElement;
+    const bid = document.getElementById("bid") as HTMLSpanElement;
    
     product1.textContent = product.product1;
-    bid1.textContent = product.bid1.toString();
+    bid.textContent = product.bid.toString();
 });
 
 class auctionMessage {

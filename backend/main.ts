@@ -24,8 +24,8 @@ getIo().on('connection', (socket: Socket) => {
     if (roomName) socket.join(roomName);
   });
 
-  socket.on('someoneTypedSomething', (message) => {
-    console.log('Message received:', message);
+  socket.on('aBidHasBeenMade', (message) => {
+    console.log('Bidd received:', message);
     // if message.amount > lastBid 
     // else rejectBid
     //skicka tillbaka till bara dig
