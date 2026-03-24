@@ -8,7 +8,7 @@ export function Hero(): HTMLElement {
 
             <div class="space-y-6">
                 <h1 class="text-4xl md:text-5xl font-bold leading-tight bg-gradient-to-r from-[#19323C] to-[#A93F55] bg-clip-text text-transparent">
-                    Hitta exklusiva auktioner 🚀
+                    Hitta exklusiva auktioner 
                 </h1>
 
                 <p class="text-gray-600 text-lg">
