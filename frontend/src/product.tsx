@@ -1,4 +1,4 @@
-import { Socket } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 
 const productName = document.getElementById("product1") as HTMLSpanElement;
 const startsum = document.getElementById("startsum") as HTMLSpanElement;
