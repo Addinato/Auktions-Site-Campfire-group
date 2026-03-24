@@ -46,3 +46,47 @@ socket.on('productUpdate', (product) => {
     product1.textContent = product.product1;
     bid1.textContent = product.bid1.toString();
 });
+
+class auctionMessage {
+    constructor( sender: string, text: string) {
+            this.sender = sender;
+            this.text = text;
+    }   
+    sender: string;
+    text: string;
+}
+
+const sendButton = document.getElementById("send") as HTMLButtonElement;
+ sendButton.addEventListener("click", () => {
+    const messageInput = document.getElementById("text") as HTMLInputElement;
+    const messageText = messageInput.value.trim();
+    const nameInput = document.getElementById("name") as HTMLInputElement;  
+    const senderName = nameInput.value.trim() || "Anonymous";
+    if (messageText) {
+        //const message = new HockeyMessage(senderName, messageText);
+        const message = { sender: senderName, text: messageText };
+        console.log('Message sent:', message);
+        alert(`Message sent: ${message.text} by ${message.sender}`);
+        socket.emit("someoneTypedSomething", message);
+        messageInput.value = "";
+    }
+});
+
+socket.on("bidResponse", (response) => {
+    console.log('Bid response received:', response);
+    alert(`Bid response: ${response.message}`);
+});
+
+socket.on("anUpdateFromServer", (message) => {
+    console.log('Update from server:', message);
+    //alert(`Update from server: ${message.text} by ${message.sender}`);
+    // append to div messages
+    const messagesDiv = document.getElementById("messages") as HTMLDivElement;
+    const messageElement = document.createElement("p");
+    messageElement.textContent = `${message.sender}: ${message.text}`;
+    messagesDiv.appendChild(messageElement);
+});
+
+//                   
+
+

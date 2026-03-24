@@ -24,6 +24,18 @@ getIo().on('connection', (socket: Socket) => {
     if (roomName) socket.join(roomName);
   });
 
+  socket.on('someoneTypedSomething', (message) => {
+    console.log('Message received:', message);
+    // if message.amount > lastBid 
+    // else rejectBid
+    //skicka tillbaka till bara dig
+    socket.emit('bidResponse', { success: true, message: 'Bid accepted!' });
+    
+    // Broadcast the message to all clients in the same room
+    socket.to(productId).emit('anUpdateFromServer', message);
+  });
+
+
   socket.on('disconnect', () => {
     console.log('user disconnected');
   }
