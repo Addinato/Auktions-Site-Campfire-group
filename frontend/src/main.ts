@@ -1,5 +1,9 @@
+import { Hero } from "./components/hero";
 import { ProductCard } from "./components/grid";
+
 let productGrid = document.getElementById("productGrid") as HTMLDivElement;
+
+document.body.prepend(Hero());
 
 function getAuctions() {
     fetch('http://localhost:3000/api/product')
