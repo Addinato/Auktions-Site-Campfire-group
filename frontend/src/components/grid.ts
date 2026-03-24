@@ -25,7 +25,7 @@ function ProductCard(product: any): HTMLElement {
     `;
 
     card.onclick = () => {
-        window.location.href = `/product.html?id=${product.id}`;
+        window.location.href = `product.html?id=${product.id}`;
     };
 
     return card;
