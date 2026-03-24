@@ -1,4 +1,3 @@
-
 import { io, Socket } from "socket.io-client";
 
 const productName = document.getElementById("product1") as HTMLSpanElement;
