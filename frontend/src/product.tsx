@@ -47,15 +47,6 @@ socket.on('productUpdate', (product) => {
     bid1.textContent = product.bid1.toString();
 });
 
-class auctionMessage {
-    constructor( sender: string, text: string) {
-            this.sender = sender;
-            this.text = text;
-    }   
-    sender: string;
-    text: string;
-}
-
 const sendButton = document.getElementById("send") as HTMLButtonElement;
  sendButton.addEventListener("click", () => {
     const messageInput = document.getElementById("text") as HTMLInputElement;
