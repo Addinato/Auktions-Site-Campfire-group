@@ -32,7 +32,7 @@ function initProducts() {
   products.push(new Product("Rolls-Royce", 627393837, "https://www.kingmagazine.se/app/uploads/2019/04/9555a3d4-5cb1f3b147906.jpg"));
 }
 
-/** In-memory bid check for Socket.IO; keeps REST and sockets in sync. */
+/** Samma produktlista som API:et – här kollas och sparas budet. */
 export function placeBidOnProduct(
   auctionId: string,
   amount: number,
@@ -44,7 +44,7 @@ export function placeBidOnProduct(
   if (!product) {
     return { ok: false, reason: "Auction not found" };
   }
-  // First "current" price is startsum; after any bid, product.bid is the high mark
+  // Inget bud innan: räkna från startpris. Annars från senaste budet.
   const currentHigh = product.bid > 0 ? product.bid : product.startsum;
   if (amount <= currentHigh) {
     return { ok: false, reason: "Bid must be higher than the current bid" };
