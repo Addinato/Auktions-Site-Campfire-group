@@ -98,54 +98,72 @@ export function ProductAuction() {
   }
 
   return (
-    <main className="max-w-3xl mx-auto mt-16 px-4">
-      <div className="bg-white rounded-2xl shadow p-6 space-y-4">
-        <img
-          src={product.imgURL}
-          alt=""
-          className="w-full h-64 object-cover rounded-xl"
-        />
+    <main className="min-h-screen bg-white py-16 px-4">
+      <div className="max-w-3xl mx-auto space-y-6">
 
-        <h1 className="text-2xl font-semibold">{product.product1}</h1>
+        <div className="bg-white rounded-2xl shadow-xl p-6 space-y-4">
 
-        <p className="text-gray-500">Startpris: {product.startsum} kr</p>
+          <img
+            src={product.imgURL}
+            alt=""
+            className="w-full h-64 object-cover rounded-xl"
+          />
 
-        <p className="text-xl font-bold text-blue-600">
-          Current bid: {currentBid} kr
-        </p>
-      </div>
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-[#19323C] to-[#A93F55] bg-clip-text text-transparent">
+            {product.product1}
+          </h1>
 
-      <form onSubmit={onSubmit} className="flex flex-col gap-3 mt-4 sm:flex-row sm:items-end sm:flex-wrap">
-        <input
-          type="text"
-          placeholder="Your name (optional)"
-          value={userName}
-          onChange={(e) => setUserName(e.target.value)}
-          className="border border-[#19323C] px-4 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#A93F55] sm:max-w-xs"
-        />
-        <input
-          type="number"
-          min={1}
-          step={1}
-          required
-          placeholder="Your bid (kr)"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-          className="border border-[#19323C] px-4 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#A93F55] sm:flex-1"
-        />
-        <button
-          type="submit"
-          className="border border-[#19323C] text-[#19323C] px-6 py-3 rounded-xl font-medium hover:bg-[#A93F55] hover:text-white transition"
+          <p className="text-[#A93F55]">
+            Startpris: {product.startsum.toLocaleString('sv-SE')} kr
+          </p>
+
+          <p className="text-2xl font-bold text-[#19323C]">
+            Current bid: {currentBid.toLocaleString('sv-SE')} kr
+          </p>
+        </div>
+
+        <form
+          onSubmit={onSubmit}
+          className="bg-white rounded-2xl shadow p-4 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end"
         >
-          Place bid
-        </button>
-      </form>
+          <input
+            type="text"
+            placeholder="Ditt namn (valfritt)"
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+            className="border border-[#19323C] bg-white text-black px-4 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#A93F55]placeholder-gray-400 sm:max-w-xs"
+          />
 
-      {feedback && (
-        <p className={`mt-3 text-sm ${feedback.type === 'ok' ? 'text-green-700' : 'text-red-600'}`}>
-          {feedback.text}
-        </p>
-      )}
+          <input
+            type="number"
+            min={1}
+            required
+            placeholder="Ditt bud (kr)"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            className="border border-[#19323C] bg-white text-black px-4 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#A93F55]placeholder-gray-400 sm:flex-1"
+          />
+
+          <button
+            type="submit"
+            className="bg-[#19323C] text-white px-6 py-3 rounded-xl font-medium hover:bg-[#A93F55] transition"
+          >
+            Lägg bud
+          </button>
+        </form>
+
+        {feedback && (
+          <div
+            className={`p-3 rounded-xl text-sm font-medium ${
+              feedback.type === 'ok'
+                ? 'bg-green-100 text-green-700'
+                : 'bg-red-100 text-red-600'
+            }`}
+          >
+            {feedback.text}
+          </div>
+        )}
+      </div>
     </main>
   );
 }
