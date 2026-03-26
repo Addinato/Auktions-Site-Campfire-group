@@ -9,42 +9,8 @@
 
   </head>
   <body class="bg-gray-50 text-gray-900">
-
-    <main class="max-w-3xl mx-auto mt-16 px-4">
-
-      <div class="bg-white rounded-2xl shadow p-6 space-y-4">
-
-        <img id="productImage" class="w-full h-64 object-cover rounded-xl" />
-
-        <h1 class="text-2xl font-semibold">
-          <span id="product1"></span>
-        </h1>
-
-        <p class="text-gray-500">
-          Startpris: <span id="startsum"></span>
-        </p>
-
-        <p class="text-xl font-bold text-blue-600">
-          Current Bid: <span id="bid"></span>
-        </p>
-
-      </div>
-
-      <div class="flex gap-2 mt-4">
-        <input id="bidInput" type="number" placeholder="Skriv ditt bud" 
-              class="border border-[#19323C] px-4 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#A93F55]" />
-
-        <button id="bidButton" 
-                class="border border-[#19323C] text-[#19323C] px-6 py-3 rounded-xl font-medium hover:bg-[#A93F55] hover:text-white transition">
-          Lägg ett bud
-        </button>
-      </div>
-
-    </main>
-
-    
-
-    <script type="module" src="/src/product.tsx"></script>
+    <div id="root"></div>
+    <script type="module" src="/src/productMain.tsx"></script>
   </body>
 </html>
 <!-- visar en product -->

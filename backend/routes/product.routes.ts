@@ -32,7 +32,28 @@ function initProducts() {
   products.push(new Product("Rolls-Royce", 627393837, "https://www.kingmagazine.se/app/uploads/2019/04/9555a3d4-5cb1f3b147906.jpg"));
 }
 
-  const productRouter = Router();
+/** Samma produktlista som API:et – här kollas och sparas budet. */
+export function placeBidOnProduct(
+  auctionId: string,
+  amount: number,
+): { ok: true; product: Product } | { ok: false; reason: string } {
+  if (typeof amount !== "number" || Number.isNaN(amount) || amount <= 0) {
+    return { ok: false, reason: "Invalid bid amount" };
+  }
+  const product = products.find((p) => p.id === auctionId);
+  if (!product) {
+    return { ok: false, reason: "Auction not found" };
+  }
+  // Inget bud innan: räkna från startpris. Annars från senaste budet.
+  const currentHigh = product.bid > 0 ? product.bid : product.startsum;
+  if (amount <= currentHigh) {
+    return { ok: false, reason: "Bid must be higher than the current bid" };
+  }
+  product.bid = amount;
+  return { ok: true, product };
+}
+
+const productRouter = Router();
 
   productRouter.get("/", (req: Request, res: Response) => {
     res.json(products);

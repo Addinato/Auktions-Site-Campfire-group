@@ -1,6 +1,6 @@
 import express, { Express, Request, Response } from "express";
 import cors from "cors";
-import { productRouter, initProducts } from "./routes/product.routes";
+import { productRouter, initProducts, placeBidOnProduct } from "./routes/product.routes";
 import http from 'http';
 import { getIo, initSocket } from './socket';
 import { Socket } from "socket.io";
@@ -24,8 +24,37 @@ getIo().on('connection', (socket: Socket) => {
     if (roomName) socket.join(roomName);
   });
 
-  socket.on('aBidHasBeenMade', (message) => {
-    console.log('Bidd received:', message);
+  // Lägg klienten i rummet för den här auktionen
+  socket.on('joinAuction', (payload: { auctionId?: string }) => {
+    const id = payload?.auctionId;
+    if (typeof id === 'string' && id.length > 0) socket.join(id);
+  });
+
+  socket.on('placeBid', (payload: { auctionId?: string; amount?: unknown; user?: string }) => {
+    const auctionId = payload?.auctionId;
+    const rawAmount = payload?.amount;
+    const user = typeof payload?.user === 'string' && payload.user.trim() ? payload.user.trim() : 'Anonymous';
+    const amount = typeof rawAmount === 'number' ? rawAmount : Number(rawAmount);
+    if (!auctionId || typeof auctionId !== 'string') {
+      socket.emit('bidRefused', { reason: 'Missing auction id' });
+      return;
+    }
+    const result = placeBidOnProduct(auctionId, amount);
+    if (!result.ok) {
+      socket.emit('bidRefused', { reason: result.reason });
+      return;
+    }
+    socket.emit('bidAccepted', { bid: result.product.bid, product: result.product });
+    getIo().to(auctionId).emit('bidUpdated', {
+      auctionId,
+      bid: result.product.bid,
+      product: result.product,
+      user,
+    });
+  });
+
+  socket.on('someoneTypedSomething', (message) => {
+    console.log('Message received:', message);
     // if message.amount > lastBid 
     // else rejectBid
     //skicka tillbaka till bara dig
