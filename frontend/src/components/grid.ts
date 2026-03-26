@@ -13,10 +13,10 @@ function ProductCard(product: any): HTMLElement {
             <div class="p-4 space-y-2">
                 <h2 class="font-semibold text-lg text-[#19323C]">${product.product1}</h2>
                 <p class="text-[#A93F55] text-sm">
-                    Startbud: ${product.startsum} kr
+                    Startbud: ${product.startsum.toLocaleString('sv-SE')} kr
                 </p>
                 <p class="font-bold text-[#19323C]">
-                    Bid: ${product.bid} kr
+                    Bid: ${product.bid.toLocaleString('sv-SE')} kr
                 </p>
             </div>
         </a>
