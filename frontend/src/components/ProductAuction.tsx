@@ -9,6 +9,7 @@ type Product = {
   imgURL: string;
   startsum: number;
   bid: number;
+  endTime?: number;
 };
 
 /** En produkt med bud i realtid via socket. */
@@ -20,9 +21,26 @@ export function ProductAuction() {
   const [amount, setAmount] = useState('');
   const [userName, setUserName] = useState('');
   const [feedback, setFeedback] = useState<{ type: 'ok' | 'err'; text: string } | null>(null);
+  const [timeLeft, setTimeLeft] = useState<number>(0);
 
   const socketRef = useRef<Socket | null>(null);
 
+  // CountDown timer
+  useEffect(() => {
+    if (!product || !product.endTime) {
+      setTimeLeft(0);
+      return;
+    }
+
+    const interval = setInterval(() => {
+      const diff = product.endTime! - Date.now();
+      setTimeLeft(diff > 0 ? diff : 0);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [product]);
+
+  // Hämta produkt
   useEffect(() => {
     if (!auctionId) {
       setLoadError('Missing product id in URL');
@@ -40,6 +58,7 @@ export function ProductAuction() {
       .catch(() => setLoadError('Could not load product'));
   }, [auctionId]);
 
+  // Socket.io för realtidsbud
   useEffect(() => {
     if (!auctionId) return;
 
@@ -68,6 +87,14 @@ export function ProductAuction() {
       socketRef.current = null;
     };
   }, [auctionId]);
+
+  function formatTime(ms: number) {
+    const totalSeconds = Math.floor(ms / 1000);
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+    return `${hours}h ${minutes}m ${seconds}s`;
+  }
 
   function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -120,6 +147,16 @@ export function ProductAuction() {
           <p className="text-2xl font-bold text-[#19323C]">
             Current bid: {currentBid.toLocaleString('sv-SE')} kr
           </p>
+
+          {/* EndTime only */}
+          {product.endTime && (
+            <p className="text-sm text-gray-500">
+              Tid kvar:{" "}
+              <span className="font-semibold text-[#A93F55]">
+                {timeLeft > 0 ? formatTime(timeLeft) : "Auktion avslutad"}
+              </span>
+            </p>
+          )}
         </div>
 
         <form
@@ -146,9 +183,10 @@ export function ProductAuction() {
 
           <button
             type="submit"
-            className="bg-[#19323C] text-white px-6 py-3 rounded-xl font-medium hover:bg-[#A93F55] transition"
+            disabled={product.endTime ? timeLeft <= 0 : false}
+            className="bg-[#19323C] text-white px-6 py-3 rounded-xl font-medium hover:bg-[#A93F55] transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Lägg bud
+            {product.endTime && timeLeft <= 0 ? "Auktion avslutad" : "Lägg bud"}
           </button>
         </form>
 

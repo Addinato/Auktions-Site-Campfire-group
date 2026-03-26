@@ -2,23 +2,25 @@ import { Router, Request, Response } from "express";
 import { getIo } from "../socket";
 
 class Product {
-  constructor(id:string,product1: string, startsum: number, imgURL: string) {
+  constructor(id:string,product1: string, startsum: number, imgURL: string, endTime?: number) {
     this.id = id;
     this.product1 = product1;
     this.startsum = startsum;
     this.imgURL = imgURL;
+    this.endTime = endTime;
   }
   id: string;
   product1: string;
   imgURL: string;
   startsum: number;
   bid: number = 0;
+  endTime?: number;
 }
 
 const products: Product[] = [];
 
 function initProducts() {
-  products.push(new Product("1","Volvo", 457580, "https://www.bilsport.se/api/images/d305-d12369337979094076-d605-d5662020905923345/1980x1320/ab9f6f97-c161-5dd4-b3ad-c4e798a12b08.jpg"));
+  products.push(new Product("1","Volvo", 457580, "https://www.bilsport.se/api/images/d305-d12369337979094076-d605-d5662020905923345/1980x1320/ab9f6f97-c161-5dd4-b3ad-c4e798a12b08.jpg", Date.now() + 3600 * 1000 ));
   products.push(new Product("2","BMW", 15540, "https://kvdbil-images.imgix.net/7271206/1c69116d.jpg"));
   products.push(new Product("3","Porche", 10670, "https://a.storyblok.com/f/338913/1280x1024/f8ad827507/718-desktop_5-4.jpg/m/filters:format(webp):quality(80)"));
   products.push(new Product("4","Audi", 20000, "https://borjessonsbil.ams3.cdn.digitaloceanspaces.com/production/campaigns/_heroDefault/Audi_A5_Avant_2408.jpg"));
@@ -42,6 +44,13 @@ export function placeBidOnProduct(
   if (!product) {
     return { ok: false, reason: "Auction not found" };
   }
+
+  // Kolla om bid har slutat (endTime finns)
+    const now = Date.now();
+    if (product.endTime !== undefined && product.endTime < now) {
+      return { ok: false, reason: "Auction ended" };
+    }
+
   // Inget bud innan: räkna från startpris. Annars från senaste budet.
   const currentHigh = product.bid > 0 ? product.bid : product.startsum;
   if (amount <= currentHigh) {
