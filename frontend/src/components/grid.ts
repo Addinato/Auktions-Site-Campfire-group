@@ -15,9 +15,7 @@ function ProductCard(product: any): HTMLElement {
                 <p class="text-[#A93F55] text-sm">
                     Startbud: ${product.startsum.toLocaleString('sv-SE')} kr
                 </p>
-                <p class="font-bold text-[#19323C]">
-                    Bid: ${product.bid.toLocaleString('sv-SE')} kr
-                </p>
+            
             </div>
         </a>
     `;
